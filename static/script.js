@@ -23,11 +23,10 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 
 //uncomment for Mapbox implementation, and supply your own access token
 
-// L.tileLayer('https://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={accessToken}', {
-// 	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-// 	mapid: 'mapbox.light',
-// 	accessToken: [INSERT YOUR TOKEN HERE!]
-// }).addTo(map);
+L.tileLayer('https://api.tiles.mapbox.com/v4/{mapid}/{z}/{x}/{y}.png?access_token={accessToken}', {
+	attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+	mapid: 'mapbox.light',
+}).addTo(map);
 
 //create variables to store a reference to svg and g elements
 
@@ -66,8 +65,9 @@ function updateData(){
 
 	// CAPTURE USER INPUT FOR ANALYSIS TYPE SELECTION
 	var checked = document.getElementById("interpolation").checked
-
+	var checkedheat = document.getElementById("heatmap").checked
 	// CAPTURE USER INPUT FOR HEAT MAP 'SPREAD' OR OTHER PARAMETERS
+	var spreadheat = document.getElementById("spread").value
 
 	// SEND USER CHOICES FOR ANALYSIS TYPE, CELL SIZE, HEAT MAP SPREAD, ETC. TO SERVER
 	request = "/getData?lat1=" + lat1 + "&lat2=" + lat2 + "&lng1=" + lng1 + "&lng2=" + lng2 + "&w=" + w + "&h=" + h + "&cell_size=" + cell_size + "&analysis=" + checked
@@ -102,7 +102,7 @@ function updateData(){
 		update();
 		map.on("viewreset", update);
 
-		if (checked == true){
+		if ((checked == true)  || (checkedheat == true)){
 
 			var topleft = projectPoint(lat2, lng1);
 
